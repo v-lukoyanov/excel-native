@@ -15,8 +15,8 @@ const jsLoaders = () => {
       loader: 'babel-loader',
       options: {
         presets: ['@babel/preset-env']
-      },
-    },
+      }
+    }
   ];
 
   if (isDev) {
@@ -32,19 +32,19 @@ module.exports = {
   entry: ['@babel/polyfill', './index.js'],
   output: {
     filename: filename('js'),
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist')
   },
   resolve: {
     extensions: ['.js'],
     alias: {
       '@': path.resolve(__dirname, 'src'),
-      '@core': path.resolve(__dirname, 'src/core'),
-    },
+      '@core': path.resolve(__dirname, 'src/core')
+    }
   },
   devtool: isDev ? 'source-map' : false,
   devServer: {
     port: 3000,
-    hot: isDev,
+    hot: isDev
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -53,7 +53,7 @@ module.exports = {
       minify: {
         removeComments: isProd,
         collapseWhitespace: isProd,
-      },
+      }
     }),
     new CopyPlugin({
       patterns: [
@@ -80,20 +80,14 @@ module.exports = {
             },
           },
           'css-loader',
-          'sass-loader',
+          'sass-loader'
         ],
       },
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: jsLoaders,
-        loader: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-          },
-        },
-      },
-    ],
-  },
+        use: jsLoaders()
+      }
+    ]
+  }
 };
