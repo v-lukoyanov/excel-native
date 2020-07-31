@@ -17,8 +17,12 @@ class Dom {
     return this;
   }
 
-  on() {
+  on(eventType, callback) {
+    this.$el.addEventListener(eventType, callback);
+  }
 
+  off(eventType, callback) {
+    this.$el.removeEventListener(eventType, callback);
   }
 
   append(node) {
@@ -27,9 +31,9 @@ class Dom {
     }
 
     if (Element.prototype.append) {
-      this.$el.append(node.$el);
+      this.$el.append(node);
     } else {
-      this.$el.appendChild(node.$el);
+      this.$el.appendChild(node);
     }
 
     return this;
