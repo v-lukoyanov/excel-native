@@ -1,12 +1,12 @@
 export class TableSelection {
-  static className = 'selected';
+  static className = 'selected'
 
   constructor() {
     this.group = [];
     this.current = null;
   }
 
-  // @param DOM $el - instance of DOM
+  // $el instanceof DOM === true
   select($el) {
     this.clear();
     $el.focus().addClass(TableSelection.className);

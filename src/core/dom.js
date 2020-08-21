@@ -1,7 +1,8 @@
 class Dom {
   constructor(selector) {
     this.$el = typeof selector === 'string' ?
-      document.querySelector(selector) : selector;
+      document.querySelector(selector) :
+      selector;
   }
 
   html(html) {
@@ -13,7 +14,14 @@ class Dom {
   }
 
   text(text) {
-    this.$el.textContent = text;
+    if (typeof text === 'string') {
+      this.$el.textContent = text;
+      return this;
+    }
+    if (this.$el.tagName.toLowerCase() === 'input') {
+      return this.$el.value.trim();
+    }
+    return this.$el.textContent.trim();
   }
 
   clear() {
@@ -27,6 +35,10 @@ class Dom {
 
   off(eventType, callback) {
     this.$el.removeEventListener(eventType, callback);
+  }
+
+  find(selector) {
+    return $(this.$el.querySelector(selector));
   }
 
   append(node) {
@@ -55,6 +67,18 @@ class Dom {
     return this.$el.getBoundingClientRect();
   }
 
+  findAll(selector) {
+    return this.$el.querySelectorAll(selector);
+  }
+
+  css(styles = {}) {
+    Object
+        .keys(styles)
+        .forEach((key) => {
+          this.$el.style[key] = styles[key];
+        });
+  }
+
   id(parse) {
     if (parse) {
       const parsed = this.id().split(':');
@@ -66,16 +90,9 @@ class Dom {
     return this.data.id;
   }
 
-  find(selector) {
-    return $(this.$el.querySelector(selector));
-  }
-
-  findAll(selector) {
-    return this.$el.querySelectorAll(selector);
-  }
-
-  css(styles = {}) {
-    Object.keys(styles).forEach((key) => this.$el.style[key] = styles[key]);
+  focus() {
+    this.$el.focus();
+    return this;
   }
 
   addClass(className) {
@@ -84,11 +101,6 @@ class Dom {
 
   removeClass(className) {
     this.$el.classList.remove(className);
-  }
-
-  focus() {
-    this.$el.focus();
-    return this;
   }
 }
 
